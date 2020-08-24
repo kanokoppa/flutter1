@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'dart:async';
+import 'package:flutter/services.dart' show rootBundle;
+import 'dart:convert';
+import 'dart:io';
 
 void main() {
   runApp(MyApp());
@@ -26,92 +31,93 @@ class MyApp extends StatelessWidget {
         // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: LoadJsonPage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  @override
+  _LoadJsonPageState createState() => _LoadJsonPageState();
+}
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
+class LoadJsonPage extends StatefulWidget {
+  LoadJsonPage({Key key, this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _LoadJsonPageState createState() => _LoadJsonPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+class _LoadJsonPageState extends State<LoadJsonPage> {
+  @override
+  void initState() {
+    super.initState();
+    // ローカルJSONをロード
+    this.loadLocalJson();
+  }
 
-  void _incrementCounter() {
+  List _jsonData; //データ
+  // ローカルJSONをロード
+  Future loadLocalJson() async {
+    String jsonString = await rootBundle.loadString('assets/json/data.json');
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      final jsonResponse = json.decode(jsonString);
+      print("-----jsondata:" + jsonResponse.toString());
+      _jsonData = jsonResponse;
+      print("--------------------");
     });
   }
 
+  /*
+  ----jsondata:{count: 3, address: sword, main: null, sword_data: [{id: 1, name: エクスカリバー, point: 150}, {id: 2, name: グングニル, point: 120}, {id: 3, name: グラム, point: 100}]}
+I/flutter ( 7074): --------------------
+   */
+
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text("JSON_TEST"),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      // ListviewでJSONデータを表示
+      body: ListView.builder(
+          itemCount: _jsonData == null ? 0 : _jsonData.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Container(
+              child: Center(
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Card(
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Container(
+                            child: Text(
+                                "ID:" + _jsonData[index]['id'].toString(),
+                                style: TextStyle(fontSize: 20.0)),
+                            width: 50,
+                            //height: 50
+                          ),
+                          Container(
+                            child: Text("login" + _jsonData[index]['login'],
+                                style: TextStyle(fontSize: 20.0)),
+                            //width: 250,
+                            //height: 50
+                          ),
+                        ],
+                      ),
+
+                      // added padding
+                      padding: const EdgeInsets.all(15.0),
+                    ),
+                  )
+                ],
+              )),
+            );
+          }),
     );
   }
 }
