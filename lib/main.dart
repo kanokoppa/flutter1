@@ -4,6 +4,11 @@ import 'dart:async';
 import 'package:flutter/services.dart' show rootBundle;
 import 'dart:convert';
 import 'dart:io';
+import 'package:http/http.dart' as http;
+
+//String url = "https://api.github.com/users/ianhanniballake/followers";
+//http.Response res = await http.get(url);
+//var json = jsonDecode(res.body);
 
 void main() {
   runApp(MyApp());
@@ -61,11 +66,12 @@ class _LoadJsonPageState extends State<LoadJsonPage> {
   List _jsonData; //データ
   // ローカルJSONをロード
   Future loadLocalJson() async {
-    String jsonString = await rootBundle.loadString('assets/json/data.json');
+    final json = await http
+        .get("https://api.github.com/repositories/90792131/contributors");
+    var result = jsonDecode(json.body);
     setState(() {
-      final jsonResponse = json.decode(jsonString);
-      print("-----jsondata:" + jsonResponse.toString());
-      _jsonData = jsonResponse;
+      print("-----jsondata:" + result.toString());
+      _jsonData = result;
       print("--------------------");
     });
   }
