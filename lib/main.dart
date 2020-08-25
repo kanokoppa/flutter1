@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'dart:async';
-import 'package:flutter/services.dart' show rootBundle;
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'contributors_detail.dart';
 
 void main() {
   runApp(MyApp());
@@ -37,11 +35,6 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  @override
-  _LoadJsonPageState createState() => _LoadJsonPageState();
-}
-
 class LoadJsonPage extends StatefulWidget {
   LoadJsonPage({Key key, this.title}) : super(key: key);
 
@@ -55,12 +48,11 @@ class _LoadJsonPageState extends State<LoadJsonPage> {
   @override
   void initState() {
     super.initState();
-    // ローカルJSONをロード
     this.loadLocalJson();
   }
 
-  List _jsonData; //データ
-  // ローカルJSONをロード
+  List _jsonData;
+
   Future loadLocalJson() async {
     final json = await http
         .get("https://api.github.com/repositories/90792131/contributors");
@@ -72,18 +64,12 @@ class _LoadJsonPageState extends State<LoadJsonPage> {
     });
   }
 
-  /*
-  ----jsondata:{count: 3, address: sword, main: null, sword_data: [{id: 1, name: エクスカリバー, point: 150}, {id: 2, name: グングニル, point: 120}, {id: 3, name: グラム, point: 100}]}
-I/flutter ( 7074): --------------------
-   */
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Contributors"),
       ),
-      // ListviewでJSONデータを表示
       body: ListView.builder(
           itemCount: _jsonData == null ? 0 : _jsonData.length,
           itemBuilder: (BuildContext context, int index) {
@@ -101,6 +87,30 @@ I/flutter ( 7074): --------------------
                                 "ID:" + _jsonData[index]['id'].toString(),
                                 style: TextStyle(fontSize: 20.0)),
                             width: 200,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ContributorsDetail(
+                                          _jsonData[index]['url'].toString() !=
+                                                  null
+                                              ? _jsonData[index]['url']
+                                                  .toString()
+                                              : '',
+                                        )),
+                              );
+                            },
+                            child: Container(
+                              height: 30,
+                              width: 50,
+                              //color: ,
+                              child: Text(
+                                "詳細へ",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ),
                           ),
                         ],
                       ),
