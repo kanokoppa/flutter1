@@ -6,10 +6,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 
-//String url = "https://api.github.com/users/ianhanniballake/followers";
-//http.Response res = await http.get(url);
-//var json = jsonDecode(res.body);
-
 void main() {
   runApp(MyApp());
 }
@@ -85,7 +81,7 @@ I/flutter ( 7074): --------------------
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("JSON_TEST"),
+        title: Text("Contributors"),
       ),
       // ListviewでJSONデータを表示
       body: ListView.builder(
@@ -104,14 +100,7 @@ I/flutter ( 7074): --------------------
                             child: Text(
                                 "ID:" + _jsonData[index]['id'].toString(),
                                 style: TextStyle(fontSize: 20.0)),
-                            width: 50,
-                            //height: 50
-                          ),
-                          Container(
-                            child: Text("login" + _jsonData[index]['login'],
-                                style: TextStyle(fontSize: 20.0)),
-                            //width: 250,
-                            //height: 50
+                            width: 200,
                           ),
                         ],
                       ),
