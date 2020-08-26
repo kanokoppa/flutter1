@@ -106,17 +106,18 @@ class _LoadJsonPageState extends State<LoadJsonPage> {
                       );
                     },
                     child: Card(
+                      color: Colors.teal,
                       child: Container(
-                        height: 65,
+                        height: 70,
                         //width: ,
                         child: Row(
                           children: [
                             Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: <Widget>[
                                 Text(
                                     "ユーザー名 : " +
                                         _jsonData[index]['login'].toString(),
-                                    textAlign: TextAlign.left,
                                     style: TextStyle(fontSize: 20)),
                                 Text(
                                   "ID : " + _jsonData[index]['id'].toString(),
