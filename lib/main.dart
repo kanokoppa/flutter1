@@ -67,60 +67,71 @@ class _LoadJsonPageState extends State<LoadJsonPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Contributors"),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(70),
+        child: AppBar(
+          backgroundColor: Colors.teal,
+          title: Column(
+            children: <Widget>[
+              Text(
+                "architecture-components-samplesの",
+                style: TextStyle(fontSize: 19),
+              ),
+              Text(
+                "Contributors一覧",
+                style: TextStyle(fontSize: 22),
+              ),
+            ],
+          ),
+        ),
       ),
       body: ListView.builder(
           itemCount: _jsonData == null ? 0 : _jsonData.length,
           itemBuilder: (BuildContext context, int index) {
             return Container(
-              child: Center(
-                  child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+              child: Column(
+                //crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Card(
-                    child: Container(
-                      child: Row(
-                        children: [
-                          Container(
-                            child: Text(
-                                "ID:" + _jsonData[index]['id'].toString(),
-                                style: TextStyle(fontSize: 20.0)),
-                            width: 200,
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ContributorsDetail(
+                            _jsonData[index]['url'].toString() != null
+                                ? _jsonData[index]['url'].toString()
+                                : '',
                           ),
-                          InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ContributorsDetail(
-                                          _jsonData[index]['url'].toString() !=
-                                                  null
-                                              ? _jsonData[index]['url']
-                                                  .toString()
-                                              : '',
-                                        )),
-                              );
-                            },
-                            child: Container(
-                              height: 30,
-                              width: 50,
-                              //color: ,
-                              child: Text(
-                                "詳細へ",
-                                style: TextStyle(fontSize: 20),
-                              ),
+                        ),
+                      );
+                    },
+                    child: Card(
+                      child: Container(
+                        height: 65,
+                        //width: ,
+                        child: Row(
+                          children: [
+                            Column(
+                              children: <Widget>[
+                                Text(
+                                    "ユーザー名 : " +
+                                        _jsonData[index]['login'].toString(),
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(fontSize: 20)),
+                                Text(
+                                  "ID : " + _jsonData[index]['id'].toString(),
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-
-                      // added padding
-                      padding: const EdgeInsets.all(15.0),
                     ),
                   )
                 ],
-              )),
+              ),
             );
           }),
     );
