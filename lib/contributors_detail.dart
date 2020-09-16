@@ -1,12 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'dart:async';
-import 'package:flutter/services.dart' show rootBundle;
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart' as http;
+
+import 'Info.dart';
 
 class ContributorsDetail extends StatefulWidget {
   final url;
@@ -60,13 +58,8 @@ class _ContributorsDetailState extends State<ContributorsDetail> {
                   ),
                 ),
                 _detail != null
-                    ? Text(
-                        _detail['name'].toString(),
-                        style: TextStyle(
-                          decoration: TextDecoration.underline,
-                          fontSize: 18,
-                          color: Colors.black,
-                        ),
+                    ? Info(
+                        text: _detail['id'].toString(),
                       )
                     : Text('読み込み中'),
               ],
@@ -87,13 +80,8 @@ class _ContributorsDetailState extends State<ContributorsDetail> {
                     textAlign: TextAlign.left,
                   ),
                   _detail != null
-                      ? Text(
-                          _detail['login'].toString(),
-                          style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            fontSize: 18,
-                            color: Colors.black,
-                          ),
+                      ? Info(
+                          text: _detail['login'].toString(),
                         )
                       : Text('読み込み中'),
                 ],
@@ -114,13 +102,8 @@ class _ContributorsDetailState extends State<ContributorsDetail> {
                     ),
                   ),
                   _detail != null
-                      ? Text(
-                          _detail['followers'].toString(),
-                          style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            fontSize: 18,
-                            color: Colors.black,
-                          ),
+                      ? Info(
+                          text: _detail['followers'].toString(),
                         )
                       : Text('読み込み中'),
                 ],
@@ -141,13 +124,8 @@ class _ContributorsDetailState extends State<ContributorsDetail> {
                     ),
                   ),
                   _detail != null
-                      ? Text(
-                          _detail['following'].toString(),
-                          style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            fontSize: 18,
-                            color: Colors.black,
-                          ),
+                      ? Info(
+                          text: _detail['following'].toString(),
                         )
                       : Text('読み込み中'),
                 ],
@@ -168,13 +146,8 @@ class _ContributorsDetailState extends State<ContributorsDetail> {
                     ),
                   ),
                   _detail != null
-                      ? Text(
-                          _detail['company'].toString(),
-                          style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            fontSize: 18,
-                            color: Colors.black,
-                          ),
+                      ? Info(
+                          text: _detail['company'].toString(),
                         )
                       : Text('読み込み中'),
                 ],
@@ -195,13 +168,8 @@ class _ContributorsDetailState extends State<ContributorsDetail> {
                     ),
                   ),
                   _detail != null
-                      ? Text(
-                          _detail['location'].toString(),
-                          style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            fontSize: 18,
-                            color: Colors.black,
-                          ),
+                      ? Info(
+                          text: _detail['location'].toString(),
                         )
                       : Text('読み込み中'),
                 ],
@@ -222,13 +190,8 @@ class _ContributorsDetailState extends State<ContributorsDetail> {
                     ),
                   ),
                   _detail != null
-                      ? Text(
-                          _detail['public_repos'].toString(),
-                          style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            fontSize: 18,
-                            color: Colors.black,
-                          ),
+                      ? Info(
+                          text: _detail['public_repos'].toString(),
                         )
                       : Text('読み込み中'),
                 ],
@@ -249,13 +212,8 @@ class _ContributorsDetailState extends State<ContributorsDetail> {
                     ),
                   ),
                   _detail != null
-                      ? Text(
-                          _detail['public_gists'].toString(),
-                          style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            fontSize: 18,
-                            color: Colors.black,
-                          ),
+                      ? Info(
+                          text: _detail['public_gist'].toString(),
                         )
                       : Text('読み込み中'),
                 ],
